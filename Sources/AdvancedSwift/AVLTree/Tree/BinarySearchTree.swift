@@ -88,10 +88,10 @@ public extension BinarySearchTree {
         
         // 대체자 찾기
         var subNode: Node<Value>?
-        if let maxInRight = targetNode.getMinNodeInRightLayer() {
-            subNode = maxInRight
-        } else if let minInLeft = targetNode.getMaxNodeInLeftLayer() {
-            subNode = minInLeft
+        if let minNodeInRight = targetNode.getMinNodeInRightLayer() {
+            subNode = minNodeInRight
+        } else if let maxNodeInLeft = targetNode.getMaxNodeInLeftLayer() {
+            subNode = maxNodeInLeft
         }
         
         var prevSubNodeParent: TreeNode?
