@@ -6,7 +6,7 @@
 //
 
 import Testing
-import AdvancedSwift
+@testable import AdvancedSwift
 
 
 enum AVLTreeError: Error {
@@ -54,7 +54,8 @@ struct AVLTreeRandomListTests {
 
 
 struct AVLTreeMemoryLeakTests {
-    @Test func memoryLeakTest() {
+    @Test("single removal memory leak test")
+    func singleRemovalMemoryLeakTest() {
         // Given
         let tree = AVLTree<Int>()
         let orginal_list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
@@ -70,6 +71,23 @@ struct AVLTreeMemoryLeakTests {
             // Then
             #expect(leakChecker != nil)
             #expect(leakChecker!.isReleased())
+        }
+    }
+    
+    @Test("remove all nodes")
+    func removeAllMemoryLeakTest() {
+        // Given
+        let tree = AVLTree<Int>()
+        let list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
+        list.forEach(tree.insert)
+        
+        // When
+        let checkers = tree.clearWithCheckers()
+        
+        // Then
+        #expect(checkers.count == list.count)
+        checkers.forEach { checker in
+            #expect(checker.isReleased())
         }
     }
 }
