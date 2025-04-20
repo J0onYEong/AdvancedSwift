@@ -13,16 +13,16 @@ public struct MemoryLeakChecker {
     public func isReleased() -> Bool { object == nil }
 }
 
-open class BinarySearchTree<Value: Comparable, TreeNode: Node<Value>> {
+open class BinarySearchTree<Value: Comparable & Copyable, TreeNode: Node<Value>> {
     // State
-    private let entryNode: EntryNode<Value> = .init(value: nil)
+    private(set) var entryNode: EntryNode<Value> = .init(value: nil)
     
     var rootNode: TreeNode? { entryNode.child as? TreeNode }
     
     public init() { }
     
-    deinit { clear() }
-    
+    public var isEmpty: Bool { rootNode == nil }
+    func setEntry(_ node: EntryNode<Value>) { self.entryNode = node }
     func createNode(value: Value, parent: Node<Value>) -> TreeNode {
         TreeNode(value: value, parent: parent)
     }

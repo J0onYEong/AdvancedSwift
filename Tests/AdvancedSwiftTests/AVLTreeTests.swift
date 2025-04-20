@@ -14,6 +14,10 @@ enum AVLTreeError: Error {
     case nodeIsNotReleased
 }
 
+extension Int: Copyable {
+    public func copy() -> Any { self }
+}
+
 // MARK: Genenral test
 struct AVLTreeRandomListTests {
     
@@ -146,7 +150,7 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
-        // When, LL상태
+        // When, RR상태
         tree.insert(1)
         tree.insert(2)
         tree.insert(3)
@@ -161,7 +165,7 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
-        // When, LL상태
+        // When, LR상태
         tree.insert(3)
         tree.insert(1)
         tree.insert(2)
@@ -176,7 +180,7 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
-        // When, LL상태
+        // When, RL상태
         tree.insert(1)
         tree.insert(3)
         tree.insert(2)
@@ -184,5 +188,44 @@ struct AVLTreeRotationTests {
         // Then
         // - 회전으로 인해 균형이 맞춰짐
         #expect(tree.treeHeight == 2)
+    }
+}
+
+
+struct DuplicationTest {
+    @Test
+    func checkDeleteRespectively() {
+        // Given
+        let insertingList = [1,2,3]
+        let origin_tree = AVLTree<Int>()
+        insertingList.forEach {
+            origin_tree.insert($0)
+        }
+        
+        // When
+        let d_tree = origin_tree.copy()
+        origin_tree.clear()
+        
+        
+        // Then
+        #expect(origin_tree.isEmpty)
+        let ascedingList = insertingList.sorted(by: { $0 < $1 })
+        #expect(d_tree.getAscendingList(maxCount: 3) == ascedingList)
+    }
+    
+    @Test
+    func checkInsertRespectively() {
+        // Given
+        let origin_tree = AVLTree<Int>()
+        let d_tree = origin_tree.copy()
+        
+        // When
+        let insertingList = [1,2,3]
+        insertingList.forEach {
+            origin_tree.insert($0)
+        }
+        
+        // Then
+        #expect(d_tree.isEmpty)
     }
 }

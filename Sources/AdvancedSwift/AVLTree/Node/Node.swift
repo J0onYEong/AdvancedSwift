@@ -5,10 +5,10 @@
 //  Created by choijunios on 4/10/25.
 //
 
-open class Node<Value: Comparable> {
+open class Node<Value: Comparable & Copyable>: Copyable {
     // State
     let value: Value!
-    private(set) var parent: Node<Value>?
+    private(set) weak var parent: Node<Value>?
     private(set) var leftChild: Node<Value>?
     private(set) var rightChild: Node<Value>?
     
@@ -42,6 +42,22 @@ open class Node<Value: Comparable> {
     func removeChild(_ node: Node<Value>) {
         if leftChild === node { setLeftChild(nil) }
         else if rightChild === node { setRightChild(nil) }
+    }
+    
+    public func copy() -> Any {
+        let d_value = self.value.copy() as! Value
+        let d_self = Self.init(value: d_value)
+        if let leftChild {
+            let d_left = leftChild.copy() as! Self
+            d_self.leftChild = d_left
+            d_left.parent = d_self
+        }
+        if let rightChild {
+            let d_right = rightChild.copy() as! Self
+            d_self.rightChild = d_right
+            d_right.parent = d_self
+        }
+        return d_self
     }
 }
 

@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/12/25.
 //
 
-public typealias HashMapKeyable = Hashable & Comparable
+public typealias HashMapKeyable = Hashable & Comparable & Copyable
 
 public actor HashMap<Key: HashMapKeyable, Value> {
     // State

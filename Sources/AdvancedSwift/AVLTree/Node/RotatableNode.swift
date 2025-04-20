@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-public class RotatableNode<Value: Comparable>: Node<Value> {
+public class RotatableNode<Value: Comparable & Copyable>: Node<Value> {
     
     func rotateToParent() {
         guard let parent else { return }
