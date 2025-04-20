@@ -155,14 +155,14 @@ public extension BinarySearchTree {
 
 // MARK: Public interface: sorted list
 public extension BinarySearchTree {
-    final func getAscendingList(maxCount: Int) -> [Value] {
+    final func getAscendingList(maxCount: UInt) -> [Value] {
         guard let rootNode else { return [] }
         var list: [Value] = []
         inOrderLeftTraversal(node: rootNode, list: &list, maxCount: maxCount)
         return list
     }
     
-    final func getDiscendingList(maxCount: Int) -> [Value] {
+    final func getDiscendingList(maxCount: UInt) -> [Value] {
         guard let rootNode else { return [] }
         var list: [Value] = []
         inOrderRightTraversal(node: rootNode, list: &list, maxCount: maxCount)
@@ -173,7 +173,7 @@ public extension BinarySearchTree {
 
 // MARK: 순회 함수
 private extension BinarySearchTree {
-    func inOrderLeftTraversal(node: Node<Value>, list: inout [Value], maxCount: Int) {
+    func inOrderLeftTraversal(node: Node<Value>, list: inout [Value], maxCount: UInt) {
         if let leftChild = node.leftChild {
             inOrderLeftTraversal(node: leftChild, list: &list, maxCount: maxCount)
         }
@@ -186,7 +186,7 @@ private extension BinarySearchTree {
         }
     }
     
-    func inOrderRightTraversal(node: Node<Value>, list: inout [Value], maxCount: Int) {
+    func inOrderRightTraversal(node: Node<Value>, list: inout [Value], maxCount: UInt) {
         if let rightChild = node.rightChild {
             inOrderRightTraversal(node: rightChild, list: &list, maxCount: maxCount)
         }
