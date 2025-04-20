@@ -5,33 +5,26 @@
 //  Created by choijunios on 4/10/25.
 //
 
-public struct MemoryLeakChecker {
-    private weak var object: AnyObject?
-    init(object: AnyObject) {
-        self.object = object
-    }
-    public func isReleased() -> Bool { object == nil }
-}
-
-open class BinarySearchTree<Value: Comparable & Copyable, TreeNode: Node<Value>> {
+open class BinarySearchTree<Value: Comparable & Copyable> {
     // State
     private(set) var entryNode: EntryNode<Value> = .init(value: nil)
     
-    var rootNode: TreeNode? { entryNode.child as? TreeNode }
+    var rootNode: Node<Value>? { entryNode.child }
     
     public init() { }
     
     public var isEmpty: Bool { rootNode == nil }
     func setEntry(_ node: EntryNode<Value>) { self.entryNode = node }
-    func createNode(value: Value, parent: Node<Value>) -> TreeNode {
-        TreeNode(value: value, parent: parent)
+    func createNode(value: Value, parent: Node<Value>) -> Node<Value> {
+        Node<Value>(value: value, parent: parent)
     }
-    func onInsertion(insertedNode: TreeNode) { }
+    
     enum BSTNodeRemoval {
-        case noSub(targetParent: TreeNode?)
-        case subExists(subNode: TreeNode, prevSubNodeParent: TreeNode?)
+        case noSub(targetParent: Node<Value>?)
+        case subExists(subNode: Node<Value>, prevSubNodeParent: Node<Value>?)
     }
     func onRemoval(removalInfo: BSTNodeRemoval) { }
+    func onInsertion(insertedNode: Node<Value>) { }
 }
 
 
@@ -96,10 +89,12 @@ public extension BinarySearchTree {
             subNode = maxNodeInLeft
         }
         
-        var prevSubNodeParent: TreeNode?
+        var prevSubNodeParent: Node<Value>?
         if let subNode {
             // 대체노드가 있는 경우
-            prevSubNodeParent = subNode.parent as? TreeNode
+            if let subNodeParent = subNode.parent, !(subNodeParent is EntryNode) {
+                prevSubNodeParent = subNode.parent
+            }
             subNode.parent?.removeChild(subNode)
             subNode.setParent(nil)
             
@@ -129,13 +124,11 @@ public extension BinarySearchTree {
         
         if let subNode {
             onRemoval(removalInfo: .subExists(
-                subNode: subNode as! TreeNode,
+                subNode: subNode,
                 prevSubNodeParent: prevSubNodeParent === targetNode ? nil : prevSubNodeParent
             ))
         } else {
-            onRemoval(removalInfo: .noSub(
-                targetParent: targetNodeParent as? TreeNode
-            ))
+            onRemoval(removalInfo: .noSub(targetParent: targetNodeParent))
         }
         
         return MemoryLeakChecker(object: targetNode)

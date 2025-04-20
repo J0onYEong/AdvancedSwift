@@ -5,13 +5,13 @@
 //  Created by choijunios on 4/10/25.
 //
 
-final public class AVLTree<Value: Comparable & Copyable>: BinarySearchTree<Value, AVLNode<Value>> {
+final public class AVLTree<Value: Comparable & Copyable>: BinarySearchTree<Value> {
 
-    override func createNode(value: Value, parent: Node<Value>) -> AVLNode<Value> {
+    override func createNode(value: Value, parent: Node<Value>) -> Node<Value> {
         AVLNode(value: value, parent: parent)
     }
     
-    override func onInsertion(insertedNode node: AVLNode<Value>) {
+    override func onInsertion(insertedNode node: Node<Value>) {
         if let parent = node.parent as? AVLNode {
             do {
                 try parent.startBalancing()
@@ -21,18 +21,22 @@ final public class AVLTree<Value: Comparable & Copyable>: BinarySearchTree<Value
         }
     }
     
-    override func onRemoval(removalInfo: BinarySearchTree<Value, AVLNode<Value>>.BSTNodeRemoval) {
+    override func onRemoval(removalInfo: BinarySearchTree<Value>.BSTNodeRemoval) {
         do {
             switch removalInfo {
             case .noSub(let targetParent):
-                try targetParent?.startBalancing()
+                guard let targetParent = targetParent as? AVLNode else { return }
+                try targetParent.startBalancing()
             case .subExists(let subNode, let prevSubNodeParent):
                 if let prevSubNodeParent {
+                    guard let subNode = subNode as? AVLNode else { return }
                     subNode.updateFactors()
+                    guard let prevSubNodeParent = prevSubNodeParent as? AVLNode else { return }
                     try prevSubNodeParent.startBalancing()
                 } else {
+                    guard let subNode = subNode as? AVLNode else { return }
                     try subNode.startBalancing()
-                }   
+                }
             }
         } catch {
             print("[\(Self.self)] \(error)")
@@ -51,6 +55,7 @@ final public class AVLTree<Value: Comparable & Copyable>: BinarySearchTree<Value
 public extension AVLTree {
     var treeHeight: Int {
         guard let rootNode else { return 0 }
-        return rootNode.height+1
+        let avlRootNode = rootNode as! AVLNode
+        return avlRootNode.height+1
     }
 }
