@@ -43,8 +43,8 @@ public extension HashMap {
     
     enum SortOrder { case ASC, DESC }
     /// Return sorted list whose range is 0..<maxCount
-    func keys(order: SortOrder, maxCount: UInt?) -> [Key] {
-        var bound: UInt = maxCount ?? UInt(keys.count)
+    func keys(order: SortOrder, maxCount: UInt? = nil) -> [Key] {
+        let bound: UInt = maxCount ?? UInt(keys.count)
         guard bound != 0 else { return [] }
         switch order {
         case .ASC:
