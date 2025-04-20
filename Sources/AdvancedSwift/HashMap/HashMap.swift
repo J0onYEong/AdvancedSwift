@@ -7,37 +7,37 @@
 
 public typealias HashMapKeyable = Hashable & Comparable & Copyable
 
-public actor HashMap<Key: HashMapKeyable, Value> {
+public final class HashMap<Key: HashMapKeyable, Value> {
     // State
-    private let keyTree: AVLTree<Key> = .init()
+    private var keyTree: AVLTree<Key> = .init()
     private var hashTable: [Key: Value] = [:]
     
-    public typealias ValueMerger = (Value, Value) -> Value
-    private var defaultMerger: ValueMerger
+    public init() { }
     
-    init(defaultMerger: @escaping ValueMerger) {
-        self.defaultMerger = defaultMerger
+    public func copy() -> HashMap<Key, Value> {
+        let d_self = HashMap<Key, Value>()
+        d_self.keyTree = self.keyTree.copy()
+        d_self.hashTable = self.hashTable
+        return d_self
     }
 }
 
 
 // MARK: Public interface
 public extension HashMap {
-    subscript (_ key: Key) -> Value? { get { hashTable[key] } }
-    
-    func insertOrMerge(key: Key, value: Value, merge: ValueMerger? = nil) {
-        if let prev = hashTable[key] {
-            // 키값이 이미 존재하는 경우, 업데이트
-            if let merge {
-                // 전달된 병합 함수 우선 사용
-                hashTable[key] = merge(prev, value)
-            } else {
-                hashTable[key] = defaultMerger(prev, value)
+    subscript (_ key: Key) -> Value? {
+        get { hashTable[key] }
+        set {
+            if hashTable[key] == nil {
+                // 새로운 키값인 경우
+                keyTree.insert(key)
             }
-        } else {
-            // 새로운 키값 등록
-            hashTable[key] = value
-            keyTree.insert(key)
+            hashTable[key] = newValue
         }
+    }
+    
+    func removeValue(_ forKey: Key) {
+        keyTree.remove(forKey)
+        hashTable.removeValue(forKey: forKey)
     }
 }
