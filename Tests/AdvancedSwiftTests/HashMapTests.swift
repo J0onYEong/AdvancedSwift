@@ -15,12 +15,14 @@ struct HashMapKeySyncTest {
         let map = HashMap<Int, Int>()
         
         // When
-        (0..<10000).forEach { num in
-            map[num] = -1
+        let orginal_list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
+        let list = orginal_list
+        list.forEach { number in
+            map[number] = -1
         }
         
         // Then
         #expect(map.keys.count == map.keys(order: .ASC).count)
-        #expect(map.keys.count == map.keys(order: .DESC).count)
+        #expect(map.keys.sorted(by: >) == map.keys(order: .DESC))
     }
 }
