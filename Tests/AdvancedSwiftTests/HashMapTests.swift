@@ -15,8 +15,7 @@ struct HashMapKeySyncTest {
         let map = HashMap<Int, Int>()
         
         // When
-        let orginal_list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
-        let list = orginal_list
+        let list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
         list.forEach { number in
             map[number] = -1
         }
@@ -24,5 +23,24 @@ struct HashMapKeySyncTest {
         // Then
         #expect(map.keys.count == map.keys(order: .ASC).count)
         #expect(map.keys.sorted(by: >) == map.keys(order: .DESC))
+    }
+}
+
+struct HashMapCRUDTests {
+    @Test("전체삭제 테스트")
+    func checkClear() {
+        // Given
+        let map = HashMap<Int, Int>()
+        let list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
+        list.forEach { number in
+            map[number] = -1
+        }
+        
+        // When
+        map.clear()
+        
+        // Then
+        #expect(map.keys.isEmpty)
+        #expect(map.keys(order: .ASC).isEmpty)
     }
 }

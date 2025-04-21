@@ -56,4 +56,9 @@ public extension HashMap {
     
     var keys: [Key] { Array(hashTable.keys) }
     var values: [Value] { Array(hashTable.values) }
+    
+    func clear() {
+        hashTable.removeAll()
+        keyTree.clear()
+    }
 }
