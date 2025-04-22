@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-open class Node<Value: Comparable & ASCopyable>: ASCopyable {
+open class Node<Value: Comparable> {
     // State
     let value: Value!
     private(set) weak var parent: Node<Value>?
@@ -44,8 +44,8 @@ open class Node<Value: Comparable & ASCopyable>: ASCopyable {
         else if rightChild === node { setRightChild(nil) }
     }
     
-    public func copy() -> Any {
-        let d_value = self.value.copy() as! Value
+    public func copy() -> Node<Value> {
+        let d_value = self.value
         let d_self = Self.init(value: d_value)
         if let leftChild {
             let d_left = leftChild.copy() as! Self

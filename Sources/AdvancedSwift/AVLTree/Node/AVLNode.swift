@@ -10,7 +10,7 @@ enum AVLNodeError: Error {
     case tryToGetNodeWhenNeutralStateOnFirst
 }
 
-final public class AVLNode<Value: Comparable & ASCopyable>: RotatableNode<Value> {
+final public class AVLNode<Value: Comparable>: RotatableNode<Value> {
     // State
     private(set) var balanceFactor: Int = 0
     private(set) var height: Int = 0
@@ -60,7 +60,7 @@ final public class AVLNode<Value: Comparable & ASCopyable>: RotatableNode<Value>
         self.balanceFactor = leftHeight - rightHeight
     }
     
-    public override func copy() -> Any {
+    public override func copy() -> AVLNode<Value> {
         let d_self = super.copy() as! AVLNode
         d_self.balanceFactor = self.balanceFactor
         d_self.height = self.height

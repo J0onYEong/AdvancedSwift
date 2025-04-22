@@ -14,10 +14,6 @@ enum AVLTreeError: Error {
     case nodeIsNotReleased
 }
 
-extension Int: ASCopyable {
-    public func copy() -> Any { self }
-}
-
 // MARK: Genenral test
 struct AVLTreeRandomListTests {
     

@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-open class BinarySearchTree<Value: Comparable & ASCopyable> {
+open class BinarySearchTree<Value: Comparable> {
     // State
     private(set) var entryNode: EntryNode<Value> = .init(value: nil)
     

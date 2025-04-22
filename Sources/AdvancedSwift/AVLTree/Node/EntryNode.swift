@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-final class EntryNode<Value: Comparable & ASCopyable>: Node<Value> {
+final class EntryNode<Value: Comparable>: Node<Value> {
     private(set) var child: Node<Value>?
     override var rightChild: Node<Value>? { self.child }
     override var leftChild: Node<Value>? { self.child }
@@ -18,10 +18,10 @@ final class EntryNode<Value: Comparable & ASCopyable>: Node<Value> {
     }
     override func setParent(_ parentNode: Node<Value>?) { }
     
-    override func copy() -> Any {
+    override func copy() -> EntryNode {
         let d_self = EntryNode(value: nil)
         if let child {
-            let d_child = child.copy() as! Node<Value>
+            let d_child = child.copy()
             d_self.child = d_child
             d_child.setParent(d_self)
         }

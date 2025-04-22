@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-final public class AVLTree<Value: Comparable & ASCopyable>: BinarySearchTree<Value> {
+final public class AVLTree<Value: Comparable>: BinarySearchTree<Value> {
 
     override func createNode(value: Value, parent: Node<Value>) -> Node<Value> {
         AVLNode(value: value, parent: parent)
@@ -43,9 +43,9 @@ final public class AVLTree<Value: Comparable & ASCopyable>: BinarySearchTree<Val
         }
     }
     
-    public func copy() -> Self {
+    public func copy() -> AVLTree {
         let d_self = AVLTree<Value>()
-        d_self.setEntry(entryNode.copy() as! EntryNode)
+        d_self.setEntry(entryNode.copy())
         return d_self as! Self
     }
 }
