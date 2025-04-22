@@ -14,7 +14,7 @@ enum AVLTreeError: Error {
     case nodeIsNotReleased
 }
 
-extension Int: Copyable {
+extension Int: ASCopyable {
     public func copy() -> Any { self }
 }
 

@@ -5,6 +5,6 @@
 //  Created by choijunios on 4/20/25.
 //
 
-public protocol Copyable {
+public protocol ASCopyable {
     func copy() -> Any
 }

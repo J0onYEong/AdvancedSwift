@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-final class EntryNode<Value: Comparable & Copyable>: Node<Value> {
+final class EntryNode<Value: Comparable & ASCopyable>: Node<Value> {
     private(set) var child: Node<Value>?
     override var rightChild: Node<Value>? { self.child }
     override var leftChild: Node<Value>? { self.child }

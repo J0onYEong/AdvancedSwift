@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/12/25.
 //
 
-public typealias HashMapKeyable = Hashable & Comparable & Copyable
+public typealias HashMapKeyable = Hashable & Comparable & ASCopyable
 
 public final class HashMap<Key: HashMapKeyable, Value> {
     // State

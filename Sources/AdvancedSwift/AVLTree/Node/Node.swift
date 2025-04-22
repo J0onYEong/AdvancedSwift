@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-open class Node<Value: Comparable & Copyable>: Copyable {
+open class Node<Value: Comparable & ASCopyable>: ASCopyable {
     // State
     let value: Value!
     private(set) weak var parent: Node<Value>?

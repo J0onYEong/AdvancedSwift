@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-final public class AVLTree<Value: Comparable & Copyable>: BinarySearchTree<Value> {
+final public class AVLTree<Value: Comparable & ASCopyable>: BinarySearchTree<Value> {
 
     override func createNode(value: Value, parent: Node<Value>) -> Node<Value> {
         AVLNode(value: value, parent: parent)

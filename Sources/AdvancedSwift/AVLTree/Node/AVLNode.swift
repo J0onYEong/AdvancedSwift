@@ -10,7 +10,7 @@ enum AVLNodeError: Error {
     case tryToGetNodeWhenNeutralStateOnFirst
 }
 
-final public class AVLNode<Value: Comparable & Copyable>: RotatableNode<Value> {
+final public class AVLNode<Value: Comparable & ASCopyable>: RotatableNode<Value> {
     // State
     private(set) var balanceFactor: Int = 0
     private(set) var height: Int = 0
