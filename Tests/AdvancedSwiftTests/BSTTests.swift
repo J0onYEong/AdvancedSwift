@@ -27,7 +27,7 @@ struct BSTIteratorTests {
         
         // Then
         var list: [Int] = []
-        for element in tree.setIterationType(.inOrderLeft) {
+        for element in tree.setTraversalStrategy(InOrderLeftStrategy()) {
             list.append(element.value)
         }
         #expect(list == insertingList.reversed())
@@ -48,7 +48,7 @@ struct BSTIteratorTests {
         
         // Then
         var list: [Int] = []
-        for element in tree.setIterationType(.inOrderRight) {
+        for element in tree.setTraversalStrategy(InOrderRightStrategy()) {
             list.append(element.value)
         }
         #expect(list == insertingList.reversed())

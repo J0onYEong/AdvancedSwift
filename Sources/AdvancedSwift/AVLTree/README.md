@@ -28,22 +28,23 @@ func getDiscendingList(maxCount: Int? = nil) -> [Value]
 
 해당 자료구조는 `Sequence`프로토콜을 준수하기 때문에 `for-in`문을 사용할 수 있습니다.
 
-매 순회마다 새로운 이터레이터를 반환하기 때문에 순회의 독립성이 지켜집니다.
+매 순회마다 복제된 트리와 함께 새로운 이터레이터를 반환하기 때문에 순회의 독립성이 지켜집니다.
 
-기본적으로 반환되는 이터레이터는 오름차순 이터레이터 이지만 `setter`함수를 사용해 기본적으로 사용되는 순회방식을 결정할 수 있습니다.
+기본적으로 반환되는 이터레이터는 오름차순 이터레이터 이지만 `setter`함수를 사용해 사용되는 순회전략을 수정할 수 있습니다.
+
+※ setTraversalStrategy로 변경한 전략은 이후에도 유지됩니다.
 
 ```swift
 for element in tree {
     // default, ASC
 }
 
-for element in tree.setIterationType(.inOrderLeft) {
+for element in tree.setTraversalStrategy(InOrderLeftStrategy()) {
     ...
 }
 
-for element in tree.setIterationType(.inOrderRight) {
-    // 내림차순 리스트를 순회하는 효과를 사용할 수 있습니다.
-    // 이후 순회부터는 내림 차순이 기본값으로 쓰이기에 주의가 필요합니다.
+for element in tree.setTraversalStrategy(InOrderRightStrategy()) {
+    ...
 }
 
 ```
