@@ -22,6 +22,8 @@ struct HashMapKeySyncTest {
         
         // Then
         #expect(map.keys.count == map.keys(order: .ASC).count)
+        #expect(map.keys.count == map.keys(order: .DESC).count)
+        #expect(map.keys.sorted(by: <) == map.keys(order: .ASC))
         #expect(map.keys.sorted(by: >) == map.keys(order: .DESC))
     }
 }

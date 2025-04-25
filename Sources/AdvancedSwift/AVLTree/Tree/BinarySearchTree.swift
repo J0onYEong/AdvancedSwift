@@ -5,13 +5,16 @@
 //  Created by choijunios on 4/10/25.
 //
 
-open class BinarySearchTree<Value: Comparable> {
+open class BinarySearchTree<Value: Comparable>: Sequence {
     // State
     private(set) var entryNode: EntryNode<Value> = .init(value: nil)
     
     var rootNode: Node<Value>? { entryNode.child }
     
-    public init() { }
+    // Interation
+    private(set) var traversalType: TraversalType = .inOrderLeft
+    
+    public required init() { }
     
     public var isEmpty: Bool { rootNode == nil }
     func setEntry(_ node: EntryNode<Value>) { self.entryNode = node }
@@ -25,6 +28,13 @@ open class BinarySearchTree<Value: Comparable> {
     }
     func onRemoval(removalInfo: BSTNodeRemoval) { }
     func onInsertion(insertedNode: Node<Value>) { }
+    
+    public func copy() -> Self {
+        let d_self = Self.init()
+        d_self.traversalType = self.traversalType
+        d_self.setEntry(entryNode.copy())
+        return d_self
+    }
 }
 
 
@@ -148,50 +158,45 @@ public extension BinarySearchTree {
 
 // MARK: Public interface: sorted list
 public extension BinarySearchTree {
-    final func getAscendingList(maxCount: UInt) -> [Value] {
-        guard let rootNode else { return [] }
+    final func getAscendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
-        inOrderLeftTraversal(node: rootNode, list: &list, maxCount: maxCount)
+        var iterator = TreeTraversalIterator(traversalType: .inOrderLeft, entryNode: entryNode)
+        while let nextElement = iterator.next() {
+            list.append(nextElement.value)
+            if let maxCount, list.count >= maxCount { break }
+        }
         return list
     }
     
-    final func getDiscendingList(maxCount: UInt) -> [Value] {
-        guard let rootNode else { return [] }
+    final func getDescendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
-        inOrderRightTraversal(node: rootNode, list: &list, maxCount: maxCount)
+        var iterator = TreeTraversalIterator(traversalType: .inOrderRight, entryNode: entryNode)
+        while let nextElement = iterator.next() {
+            list.append(nextElement.value)
+            if let maxCount, list.count >= maxCount { break }
+        }
         return list
     }
 }
 
 
-// MARK: 순회 함수
+// MARK: Iterator
+public extension BinarySearchTree {
+    @discardableResult
+    func setIterationType(_ traversalType: TraversalType) -> Self {
+        self.traversalType = traversalType
+        return self
+    }
+ 
+    func makeIterator() -> TreeTraversalIterator<Value> {
+        let copied = self.copy()
+        return TreeTraversalIterator(traversalType: traversalType, entryNode: copied.entryNode)
+    }
+}
+
+
+// MARK: 내부 순회 함수
 private extension BinarySearchTree {
-    func inOrderLeftTraversal(node: Node<Value>, list: inout [Value], maxCount: UInt) {
-        if let leftChild = node.leftChild {
-            inOrderLeftTraversal(node: leftChild, list: &list, maxCount: maxCount)
-        }
-        
-        if list.count >= maxCount { return }
-        list.append(node.value)
-        
-        if let rightChild = node.rightChild {
-            inOrderLeftTraversal(node: rightChild, list: &list, maxCount: maxCount)
-        }
-    }
-    
-    func inOrderRightTraversal(node: Node<Value>, list: inout [Value], maxCount: UInt) {
-        if let rightChild = node.rightChild {
-            inOrderRightTraversal(node: rightChild, list: &list, maxCount: maxCount)
-        }
-        
-        if list.count >= maxCount { return }
-        list.append(node.value)
-        
-        if let leftChild = node.leftChild {
-            inOrderRightTraversal(node: leftChild, list: &list, maxCount: maxCount)
-        }
-    }
-    
     func postOrderTraversal(node: Node<Value>, action: (Node<Value>) -> ()) {
         if let leftChild = node.leftChild {
             postOrderTraversal(node: leftChild, action: action)
