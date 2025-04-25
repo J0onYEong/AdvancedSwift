@@ -43,7 +43,7 @@ for element in tree.setTraversalStrategy(InOrderLeftStrategy()) {
     ...
 }
 
-for element in tree.setTraversalStrategy(InOrderRight()) {
+for element in tree.setTraversalStrategy(InOrderRightStrategy()) {
     ...
 }
 

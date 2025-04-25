@@ -6,7 +6,6 @@
 //
 
 public final class InOrderLeftStrategy<Value: Comparable>: TreeTraversalStrategy<Value> {
-    
     public override func getNext(_ start: Node<Value>, checker: VisitChecker<Node<Value>>) -> Node<Value>? {
         return inOrderLeftTraversal(current: start, checker: checker)
     }
