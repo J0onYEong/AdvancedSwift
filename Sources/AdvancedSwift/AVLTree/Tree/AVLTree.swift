@@ -6,7 +6,6 @@
 //
 
 final public class AVLTree<Value: Comparable>: BinarySearchTree<Value> {
-
     override func createNode(value: Value, parent: Node<Value>) -> Node<Value> {
         AVLNode(value: value, parent: parent)
     }
@@ -41,12 +40,6 @@ final public class AVLTree<Value: Comparable>: BinarySearchTree<Value> {
         } catch {
             print("[\(Self.self)] \(error)")
         }
-    }
-    
-    public func copy() -> AVLTree {
-        let d_self = AVLTree<Value>()
-        d_self.setEntry(entryNode.copy())
-        return d_self as! Self
     }
 }
 
