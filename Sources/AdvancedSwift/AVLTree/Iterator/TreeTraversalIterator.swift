@@ -5,10 +5,6 @@
 //  Created by choijunios on 4/25/25.
 //
 
-public enum TraversalType {
-    case inOrderLeft, inOrderRight
-}
-
 public struct TreeTraversalIterator<Value: Comparable>: IteratorProtocol {
     public typealias Element = Node<Value>
     
