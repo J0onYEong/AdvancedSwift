@@ -29,6 +29,7 @@ struct AVLTreeRandomListTests {
                 tree.insert(number)
             }
             
+            
             // When, 랜덤 삭제
             var erased: [Int] = []
             for _ in (0..<3) {
@@ -40,6 +41,7 @@ struct AVLTreeRandomListTests {
                     throw AVLTreeError.nodeIsNotReleased
                 }
             }
+            
             
             // Then, 삭제한 리스트와 삭제된 리스트를 합쳤을 때 원본과 같아야 한다.
             list.append(contentsOf: erased)
@@ -62,11 +64,13 @@ struct AVLTreeMemoryLeakTests {
         var list = orginal_list
         list.forEach(tree.insert(_:))
         
+        
         // When
         for _ in 0..<100 {
             guard let element = list.randomElement() else { continue }
             list.removeAll(where: { $0 == element })
             let leakChecker = tree.remove(element)
+            
             
             // Then
             #expect(leakChecker != nil)
@@ -81,8 +85,10 @@ struct AVLTreeMemoryLeakTests {
         let list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
         list.forEach(tree.insert)
         
+        
         // When
         let checkers = tree.clearWithCheckers()
+        
         
         // Then
         #expect(checkers.count == list.count)
@@ -99,10 +105,12 @@ struct AVLTreeInsertRemoveExceptionTests {
         // Given
         let tree = AVLTree<Int>()
         
+        
         // When
         tree.insert(1)
         tree.insert(1)
         tree.insert(1)
+        
         
         // Then, 중복요소는 무시한다.
         #expect(tree.treeHeight == 1)
@@ -114,8 +122,10 @@ struct AVLTreeInsertRemoveExceptionTests {
         let tree = AVLTree<Int>()
         tree.insert(1)
         
+        
         // When
         let leakChecker = tree.remove(2)
+        
         
         // Then, 요소가 없음으로 해당 요소 대한 매모리 누수 감지기가 반환되지 않는다.
         #expect(leakChecker == nil)
@@ -131,10 +141,12 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
+        
         // When, LL상태
         tree.insert(3)
         tree.insert(2)
         tree.insert(1)
+        
         
         // Then
         // - 회전으로 인해 균형이 맞춰짐
@@ -146,10 +158,12 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
+        
         // When, RR상태
         tree.insert(1)
         tree.insert(2)
         tree.insert(3)
+        
         
         // Then
         // - 회전으로 인해 균형이 맞춰짐
@@ -161,10 +175,12 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
+        
         // When, LR상태
         tree.insert(3)
         tree.insert(1)
         tree.insert(2)
+        
         
         // Then
         // - 회전으로 인해 균형이 맞춰짐
@@ -176,10 +192,12 @@ struct AVLTreeRotationTests {
         // Given
         let tree = AVLTree<Int>()
         
+        
         // When, RL상태
         tree.insert(1)
         tree.insert(3)
         tree.insert(2)
+        
         
         // Then
         // - 회전으로 인해 균형이 맞춰짐
@@ -188,7 +206,7 @@ struct AVLTreeRotationTests {
 }
 
 
-struct DuplicationTest {
+struct AVLTreeDuplicationTest {
     @Test
     func checkDeleteRespectively() {
         // Given
@@ -198,6 +216,7 @@ struct DuplicationTest {
             origin_tree.insert($0)
         }
         
+        
         // When
         let d_tree = origin_tree.copy()
         origin_tree.clear()
@@ -206,7 +225,7 @@ struct DuplicationTest {
         // Then
         #expect(origin_tree.isEmpty)
         let ascedingList = insertingList.sorted(by: { $0 < $1 })
-        #expect(d_tree.getAscendingList(maxCount: 3) == ascedingList)
+        #expect(d_tree.getAscendingList() == ascedingList)
     }
     
     @Test
@@ -215,13 +234,38 @@ struct DuplicationTest {
         let origin_tree = AVLTree<Int>()
         let d_tree = origin_tree.copy()
         
+        
         // When
         let insertingList = [1,2,3]
         insertingList.forEach {
             origin_tree.insert($0)
         }
         
+        
         // Then
         #expect(d_tree.isEmpty)
+    }
+}
+
+
+struct AVLTreeSliceTest {
+    @Test("설정한 개수만큼의 리스트를 확보하는지 확인한다.")
+    func checkListSizeLimit() {
+        // Given
+        let insertingList = Array(0..<1000)
+        let tree = AVLTree<Int>()
+        insertingList.forEach {
+            tree.insert($0)
+        }
+        
+        
+        // When
+        let ascendingList = tree.getAscendingList(maxCount: 10)
+        let descendingList = tree.getDiscendingList(maxCount: 10)
+        
+        
+        // Then
+        #expect(Array(insertingList.sorted(by: <)[0..<10]) == ascendingList)
+        #expect(Array(insertingList.sorted(by: >)[0..<10]) == descendingList)
     }
 }

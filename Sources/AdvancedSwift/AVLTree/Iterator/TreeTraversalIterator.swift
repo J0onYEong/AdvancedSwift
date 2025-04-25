@@ -1,5 +1,5 @@
 //
-//  InOrderLeftIterator.swift
+//  TreeTraversalIterator.swift
 //  AdvancedSwift
 //
 //  Created by choijunios on 4/25/25.
@@ -13,15 +13,15 @@ public struct TreeTraversalIterator<Value: Comparable>: IteratorProtocol {
     public typealias Element = Node<Value>
     
     // State
-    private let rootHolder: Element?
+    private let entry: Element?
     private let traversalType: TraversalType
     private var currentNode: Element?
     private var visited: Set<ObjectIdentifier> = .init()
     
-    init(traversalType: TraversalType, startNode: Element?) {
+    init(traversalType: TraversalType, entryNode: EntryNode<Value>?) {
         self.traversalType = traversalType
-        self.rootHolder = startNode
-        self.currentNode = startNode
+        self.entry = entryNode
+        self.currentNode = entryNode?.child
     }
     
     public mutating func next() -> Element? {
@@ -67,7 +67,7 @@ private extension TreeTraversalIterator {
         }
         
         if current.isRootNode { return nil }
-        return current.parent
+        return inOrderLeftTraversal(current: current.parent!)
     }
     
     func inOrderRightTraversal(current: Element) -> Node<Value>? {
@@ -80,6 +80,6 @@ private extension TreeTraversalIterator {
         }
         
         if current.isRootNode { return nil }
-        return current.parent
+        return inOrderRightTraversal(current: current.parent!)
     }
 }

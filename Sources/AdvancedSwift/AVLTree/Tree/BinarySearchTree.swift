@@ -158,22 +158,22 @@ public extension BinarySearchTree {
 
 // MARK: Public interface: sorted list
 public extension BinarySearchTree {
-    final func getAscendingList(maxCount: UInt) -> [Value] {
-        guard let rootNode else { return [] }
+    final func getAscendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
-        var iterator = TreeTraversalIterator(traversalType: .inOrderLeft, startNode: rootNode)
+        var iterator = TreeTraversalIterator(traversalType: .inOrderLeft, entryNode: entryNode)
         while let nextElement = iterator.next() {
             list.append(nextElement.value)
+            if let maxCount, list.count >= maxCount { break }
         }
         return list
     }
     
-    final func getDiscendingList(maxCount: UInt) -> [Value] {
-        guard let rootNode else { return [] }
+    final func getDiscendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
-        var iterator = TreeTraversalIterator(traversalType: .inOrderRight, startNode: rootNode)
+        var iterator = TreeTraversalIterator(traversalType: .inOrderRight, entryNode: entryNode)
         while let nextElement = iterator.next() {
             list.append(nextElement.value)
+            if let maxCount, list.count >= maxCount { break }
         }
         return list
     }
@@ -190,7 +190,7 @@ public extension BinarySearchTree {
  
     func makeIterator() -> TreeTraversalIterator<Value> {
         let copied = self.copy()
-        return TreeTraversalIterator(traversalType: traversalType, startNode: copied.rootNode)
+        return TreeTraversalIterator(traversalType: traversalType, entryNode: copied.entryNode)
     }
 }
 
