@@ -5,7 +5,7 @@
 //  Created by choijunios on 4/10/25.
 //
 
-open class BinarySearchTree<Value: Comparable> {
+open class BinarySearchTree<Value: Comparable>: Sequence {
     // State
     private(set) var entryNode: EntryNode<Value> = .init(value: nil)
     
@@ -163,6 +163,12 @@ public extension BinarySearchTree {
     }
 }
 
+
+// MARK: Iterator
+public extension BinarySearchTree {
+    func getInOrderLeftIterator() -> InOrderLeftIterator<Value> { InOrderLeftIterator(startNode: rootNode) }
+    func makeIterator() -> InOrderLeftIterator<Value> { getInOrderLeftIterator() }
+}
 
 // MARK: 순회 함수
 private extension BinarySearchTree {
