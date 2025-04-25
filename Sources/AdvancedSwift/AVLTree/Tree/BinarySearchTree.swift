@@ -11,10 +11,12 @@ open class BinarySearchTree<Value: Comparable>: Sequence {
     
     var rootNode: Node<Value>? { entryNode.child }
     
-    // Interation
-    private(set) var traversalType: TraversalType = .inOrderLeft
+    // Iteration
+    private(set) var traversalStrategy: TreeTraversalStrategy<Value>
     
-    public required init() { }
+    public required init(traversalStrategy: TreeTraversalStrategy<Value> = InOrderLeftStrategy()) {
+        self.traversalStrategy = traversalStrategy
+    }
     
     public var isEmpty: Bool { rootNode == nil }
     func setEntry(_ node: EntryNode<Value>) { self.entryNode = node }
@@ -31,7 +33,7 @@ open class BinarySearchTree<Value: Comparable>: Sequence {
     
     public func copy() -> Self {
         let d_self = Self.init()
-        d_self.traversalType = self.traversalType
+        d_self.traversalStrategy = self.traversalStrategy
         d_self.setEntry(entryNode.copy())
         return d_self
     }
@@ -42,7 +44,7 @@ open class BinarySearchTree<Value: Comparable>: Sequence {
 public extension BinarySearchTree {
     /// 값을 트리에 추가합니다.
     final func insert(_ value: Value) {
-        // 루트노드가 비어 있는 경우
+        // 루트 노드가 비어 있는 경우
         if rootNode == nil {
             let newRootNode = createNode(value: value, parent: entryNode)
             self.entryNode.setChild(newRootNode)
@@ -109,25 +111,25 @@ public extension BinarySearchTree {
             subNode.setParent(nil)
             
             if let parentNode = targetNode.parent {
-                // 타겟의 부모를 대체 노드로 이전
+                // 대상의 부모를 대체 노드로 이전
                 subNode.setParent(parentNode)
                 parentNode.setChild(subNode)
             }
             if let rightNode = targetNode.rightChild, rightNode !== subNode {
-                // 타겟의 오른쪽 자식을 이전
+                // 대상의 오른쪽 자식을 이전
                 subNode.setRightChild(rightNode)
                 rightNode.setParent(subNode)
                 targetNode.setRightChild(nil)
             }
             if let leftNode = targetNode.leftChild, leftNode !== subNode {
-                // 타겟의 왼쪽 자식을 이전
+                // 대상의 왼쪽 자식을 이전
                 subNode.setLeftChild(leftNode)
                 leftNode.setParent(subNode)
                 targetNode.setLeftChild(nil)
             }
         }
         
-        // 타겟 노드 삭제
+        // 대상 노드 삭제
         let targetNodeParent = targetNode.parent
         targetNode.parent?.removeChild(targetNode)
         targetNode.setParent(nil)
@@ -160,7 +162,10 @@ public extension BinarySearchTree {
 public extension BinarySearchTree {
     final func getAscendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
-        var iterator = TreeTraversalIterator(traversalType: .inOrderLeft, entryNode: entryNode)
+        var iterator = TreeTraversalIterator(
+            entryNode: entryNode,
+            strategy: InOrderLeftStrategy()
+        )
         while let nextElement = iterator.next() {
             list.append(nextElement.value)
             if let maxCount, list.count >= maxCount { break }
@@ -170,7 +175,10 @@ public extension BinarySearchTree {
     
     final func getDescendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
-        var iterator = TreeTraversalIterator(traversalType: .inOrderRight, entryNode: entryNode)
+        var iterator = TreeTraversalIterator(
+            entryNode: entryNode,
+            strategy: InOrderRightStrategy()
+        )
         while let nextElement = iterator.next() {
             list.append(nextElement.value)
             if let maxCount, list.count >= maxCount { break }
@@ -183,14 +191,17 @@ public extension BinarySearchTree {
 // MARK: Iterator
 public extension BinarySearchTree {
     @discardableResult
-    func setIterationType(_ traversalType: TraversalType) -> Self {
-        self.traversalType = traversalType
+    func setTraversalStrategy(_ strategy: TreeTraversalStrategy<Value>) -> Self {
+        self.traversalStrategy = strategy
         return self
     }
  
     func makeIterator() -> TreeTraversalIterator<Value> {
         let copied = self.copy()
-        return TreeTraversalIterator(traversalType: traversalType, entryNode: copied.entryNode)
+        return TreeTraversalIterator(
+            entryNode: copied.entryNode,
+            strategy: traversalStrategy
+        )
     }
 }
 
