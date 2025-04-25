@@ -50,7 +50,7 @@ public extension HashMap {
         case .ASC:
             return keyTree.getAscendingList(maxCount: bound)
         case .DESC:
-            return keyTree.getDiscendingList(maxCount: bound)
+            return keyTree.getDescendingList(maxCount: bound)
         }
     }
     

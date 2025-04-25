@@ -261,7 +261,7 @@ struct AVLTreeSliceTest {
         
         // When
         let ascendingList = tree.getAscendingList(maxCount: 10)
-        let descendingList = tree.getDiscendingList(maxCount: 10)
+        let descendingList = tree.getDescendingList(maxCount: 10)
         
         
         // Then

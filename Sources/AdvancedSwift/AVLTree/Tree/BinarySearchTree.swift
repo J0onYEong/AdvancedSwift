@@ -168,7 +168,7 @@ public extension BinarySearchTree {
         return list
     }
     
-    final func getDiscendingList(maxCount: UInt? = nil) -> [Value] {
+    final func getDescendingList(maxCount: UInt? = nil) -> [Value] {
         var list: [Value] = []
         var iterator = TreeTraversalIterator(traversalType: .inOrderRight, entryNode: entryNode)
         while let nextElement = iterator.next() {
