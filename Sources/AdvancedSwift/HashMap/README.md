@@ -5,6 +5,9 @@ Key-Value 형태로 데이터를 저장하고 업데이트할 수 있는 자료�
 
 내부적으로 균형 이진 트리인 [AVLTree](https://github.com/J0onYEong/AdvancedSwift/tree/main/Sources/AdvancedSwift/AVLTree)를 사용하여 정렬 없이도 키 값을 오름차순 또는 내림차순으로 추출할 수 있습니다.
 
+> 💡 **Note**
+> HashMap자료구조는 class로 구현된 참조타입입니다. 해당 자료구조를 깊은 복사하고 싶은 경우 인스턴스 매서드 `copy`를 사용하세요.
+
 ### Create
 
 생성 시 사용할 Key와 Value 타입을 명시해야 합니다. Key 타입은 내부적으로 비교 연산 및 해시 연산을 위해 아래 프로토콜을 따라야 합니다.
