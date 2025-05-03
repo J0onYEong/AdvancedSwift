@@ -3,7 +3,7 @@
 
 Key-Value 형태로 데이터를 저장하고 업데이트할 수 있는 자료구조입니다.
 
-내부적으로 균형 이진 트리인 [AVLTree]("https://github.com/J0onYEong/AdvancedSwift/tree/main/Sources/AdvancedSwift/AVLTree")를 사용하여 정렬 없이도 키 값을 오름차순 또는 내림차순으로 추출할 수 있습니다.
+내부적으로 균형 이진 트리인 [AVLTree](https://github.com/J0onYEong/AdvancedSwift/tree/main/Sources/AdvancedSwift/AVLTree)를 사용하여 정렬 없이도 키 값을 오름차순 또는 내림차순으로 추출할 수 있습니다.
 
 ### Create
 
