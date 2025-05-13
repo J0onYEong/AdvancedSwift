@@ -14,7 +14,7 @@ struct BSTIteratorTests {
     @Test("좌측 중위 순회 이터레이터 순회 테스트")
     func checkInOrderLeftIterator() {
         // Given
-        let tree = BinarySearchTree<Int>()
+        let tree = BinarySearchTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When
@@ -36,7 +36,7 @@ struct BSTIteratorTests {
     @Test("우측 중위 순회 이터레이터 순회 테스트")
     func checkInOrderRightIterator() {
         // Given
-        let tree = BinarySearchTree<Int>()
+        let tree = BinarySearchTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When
