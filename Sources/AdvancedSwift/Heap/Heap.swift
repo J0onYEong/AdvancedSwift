@@ -5,22 +5,22 @@
 //  Created by choijunios on 5/13/25.
 //
 
-struct Heap<T> {
+public struct Heap<T> {
     // State
     private var list: [T] = []
     private let comparator: (T, T) -> Bool
     
     
-    var count: Int { list.count }
-    var isEmpty: Bool { list.isEmpty }
+    public var count: Int { list.count }
+    public var isEmpty: Bool { list.isEmpty }
 
     
-    enum HeapType {
+    public enum HeapType {
         case min, max
     }
     
     
-    init(heapType: HeapType) where T: Comparable {
+    public init(heapType: HeapType) where T: Comparable {
         switch heapType {
         case .max:
             comparator = { $0 > $1 }
@@ -30,14 +30,14 @@ struct Heap<T> {
     }
     
     
-    init(compare: @escaping (T, T) -> Bool) {
+    public init(compare: @escaping (T, T) -> Bool) {
         self.comparator = compare
     }
 }
 
 
-// MARK:
-extension Heap {
+// MARK: Insert, Pop, Top
+public extension Heap {
     mutating func insert(_ element: T) {
         list.append(element)
         repositionFromBottom(startIndex: list.endIndex-1)
