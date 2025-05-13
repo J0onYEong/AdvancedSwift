@@ -21,7 +21,7 @@ struct AVLTreeRandomListTests {
     func testRandom10000List() throws {
         for _ in 0..<10 {
             // Given, 중복되지 않는 약 1만개의 요소를 삽입
-            let tree = AVLTree<Int>()
+            let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
             let orginal_list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
             var list = orginal_list
             
@@ -59,7 +59,7 @@ struct AVLTreeMemoryLeakTests {
     @Test("single removal memory leak test")
     func singleRemovalMemoryLeakTest() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         let orginal_list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
         var list = orginal_list
         list.forEach(tree.insert(_:))
@@ -81,7 +81,7 @@ struct AVLTreeMemoryLeakTests {
     @Test("remove all nodes")
     func removeAllMemoryLeakTest() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         let list = Array(Set((0..<10000).map({ _ in Int.random(in: 1..<100000) })))
         list.forEach(tree.insert)
         
@@ -103,7 +103,7 @@ struct AVLTreeInsertRemoveExceptionTests {
     @Test("Insert duplicate member")
     func insertDuplicateMember() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When
@@ -119,7 +119,7 @@ struct AVLTreeInsertRemoveExceptionTests {
     @Test("Remove invalid memeber")
     func removeInvalidMember() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         tree.insert(1)
         
         
@@ -139,7 +139,7 @@ struct AVLTreeRotationTests {
     @Test("LL Rotation test")
     func LLRotation() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When, LL상태
@@ -156,7 +156,7 @@ struct AVLTreeRotationTests {
     @Test("RR Rotation test")
     func RRRotation() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When, RR상태
@@ -173,7 +173,7 @@ struct AVLTreeRotationTests {
     @Test("LR Rotation test")
     func LRRotation() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When, LR상태
@@ -190,7 +190,7 @@ struct AVLTreeRotationTests {
     @Test("RL Rotation test")
     func RLRotation() {
         // Given
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         
         
         // When, RL상태
@@ -211,7 +211,7 @@ struct AVLTreeDuplicationTest {
     func checkDeleteRespectively() {
         // Given
         let insertingList = [1,2,3]
-        let origin_tree = AVLTree<Int>()
+        let origin_tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         insertingList.forEach {
             origin_tree.insert($0)
         }
@@ -231,7 +231,7 @@ struct AVLTreeDuplicationTest {
     @Test
     func checkInsertRespectively() {
         // Given
-        let origin_tree = AVLTree<Int>()
+        let origin_tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         let d_tree = origin_tree.copy()
         
         
@@ -253,7 +253,7 @@ struct AVLTreeSliceTest {
     func checkListSizeLimit() {
         // Given
         let insertingList = Array(0..<1000)
-        let tree = AVLTree<Int>()
+        let tree = AVLTree<Int>(traversalStrategy: InOrderLeftStrategy())
         insertingList.forEach {
             tree.insert($0)
         }
