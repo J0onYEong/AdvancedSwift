@@ -60,6 +60,10 @@ public extension Heap {
             return nil
         }
     }
+    
+    mutating func clear() {
+        list.removeAll()
+    }
 }
 
 
