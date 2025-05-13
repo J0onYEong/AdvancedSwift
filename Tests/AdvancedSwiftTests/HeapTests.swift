@@ -70,7 +70,7 @@ struct HeapTests {
     struct SomeType: Equatable {
         let value: Int
     }
-    @Test("Comaprable이 아닌 타입도 의도한대로 동작하는지 확인합니다.", arguments: [
+    @Test("Comparable이 아닌 타입도 의도한대로 동작하는지 확인합니다.", arguments: [
         [SomeType(value: 5), SomeType(value: 4), SomeType(value: 3), SomeType(value: 2), SomeType(value: 1)]
     ])
     func checkNotComparable(elements: [SomeType]) {
