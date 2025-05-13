@@ -1,10 +1,17 @@
-## AdvancedSwift
+# AdvancedSwift
+
+<table>
+  <tr>
+    <td>Swift version</td>
+    <td>5.9</td>
+  </tr>
+</table>
 
 ### HashMap
-- [x] 구현
-- [x] 테스트
+- [x] Implement
+- [x] Tests
 
 ### AVLTree
-- [x] [정리글](https://ios-adventure-with-aphelios.tistory.com/51)
-- [x] 구현
-- [x] 테스트
+- [x] [Post](https://ios-adventure-with-aphelios.tistory.com/51)
+- [x] Implement
+- [x] Tests
