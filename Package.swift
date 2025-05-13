@@ -10,6 +10,10 @@ let package = Package(
         .library(
             name: "AdvancedSwift",
             targets: ["AdvancedSwift"]),
+        
+    ],
+    dependencies: [
+        .package(url: "https://github.com/swiftlang/swift-testing.git", from: "6.1.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -18,7 +22,10 @@ let package = Package(
             name: "AdvancedSwift"),
         .testTarget(
             name: "AdvancedSwiftTests",
-            dependencies: ["AdvancedSwift"]
+            dependencies: [
+                "AdvancedSwift",
+                .product(name: "Testing", package: "swift-testing"),
+            ]
         ),
     ]
 )
